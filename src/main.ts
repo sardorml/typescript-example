@@ -10,19 +10,25 @@ type Order = {
   pizza: Pizza;
 };
 
-var menu: Pizza[] = [
-  { id: 1, name: "Margherita", price: 8 },
-  { id: 2, name: "Pepperoni", price: 10 },
-  { id: 3, name: "Hawaiian", price: 10 },
-  { id: 4, name: "Veggie", price: 9 },
-];
-
 var cashInRegister: number = 100;
+var nextPizzaId = 0;
 var nextOrderId: number = 1;
 var orderQueue: Order[] = [];
 
-function addNewPizza(pizzaObj: Pizza) {
-  menu.push(pizzaObj);
+var menu: Pizza[] = [
+  { id: nextPizzaId++, name: "Margherita", price: 8 },
+  { id: nextPizzaId++, name: "Pepperoni", price: 10 },
+  { id: nextPizzaId++, name: "Hawaiian", price: 10 },
+  { id: nextPizzaId++, name: "Veggie", price: 9 },
+];
+
+function addNewPizza(pizzaObj: Omit<Pizza, "id">): Pizza {
+  let pizza = {
+    id: nextPizzaId++,
+    ...pizzaObj,
+  };
+  menu.push(pizza);
+  return pizza;
 }
 
 /**
@@ -33,7 +39,7 @@ function addNewPizza(pizzaObj: Pizza) {
  *    (e.g. { pizza: selectedPizzaObjectFromStep1, status: "ordered" })
  * 4. returns the new order object (just in case we need it later)
  */
-function placeOrder(name: string) {
+function placeOrder(name: string): Order | undefined {
   var item = menu.find((item) => item.name == name);
 
   if (!item) {
@@ -58,7 +64,7 @@ function placeOrder(name: string) {
  * Note: you'll need to ensure that we're adding IDs to our orders when we create new orders. You can use a global `nextOrderId` variable and increment it every time a new order is created to simulate real IDs being managed for us by a database.
  */
 
-function completeOrder(orderId: number) {
+function completeOrder(orderId: number): Order | undefined {
   const order = orderQueue.find((order) => order.id === orderId);
   if (!order) return;
   order.status = "completed";
@@ -76,7 +82,7 @@ function completeOrder(orderId: number) {
  * to either be a string or a number.
  */
 
-export function getPizzaDetail(identifier: string | number) {
+export function getPizzaDetail(identifier: string | number): Pizza | undefined {
   /**
    * Challenge: write the code to check if the parameter is a string
    * or a number, and use the menu.find() method accordingly
@@ -92,9 +98,9 @@ export function getPizzaDetail(identifier: string | number) {
   }
 }
 
-addNewPizza({ id: 6, name: "Chicken Bacon Ranch", price: 12 });
-addNewPizza({ id: 7, name: "BBQ Chicken", price: 12 });
-addNewPizza({ id: 8, name: "Spicy Sausage", price: 11 });
+addNewPizza({ name: "Chicken Bacon Ranch", price: 12 });
+addNewPizza({ name: "BBQ Chicken", price: 12 });
+addNewPizza({ name: "Spicy Sausage", price: 11 });
 
 placeOrder("Chicken Bacon Ranch");
 completeOrder(0);
