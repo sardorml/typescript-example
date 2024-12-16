@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "ESNext", // Ensures TypeScript compiles to ES modules
+    "target": "ES2020", // Use a modern JavaScript target
+    "moduleResolution": "Node",
+    "rootDir": "./src",
+    "outDir": "./dist", // Output directory for compiled JavaScript
+    "esModuleInterop": true, // Ensures compatibility with CommonJS modules
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"], // Include all files in 'src'
+  "exclude": ["node_modules"] // Exclude dependencies
+}
